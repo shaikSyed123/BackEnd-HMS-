@@ -60,7 +60,7 @@ public class MyConfigur {
            .authorizeHttpRequests(authorizeRequests ->
                authorizeRequests
                    .requestMatchers("/user/**").hasRole("USER")
-                   .requestMatchers("/**").permitAll()
+                   .requestMatchers("/","/**").permitAll()
                    .requestMatchers("/auth/login", "/dashboard","/Dashboard").authenticated()
                    .anyRequest().permitAll()
            );
