@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tsarit.form_1.config.AuthenticationRequest;
@@ -80,6 +81,12 @@ public class AuthenticationController {
 //	            return ResponseEntity.status(500).body("Failed to send OTP: " + e.getMessage());
 //	        }
 //	    }
+	 
+	 @GetMapping(value = {"/", "/{path:[^\\.]*}"})
+	    public String index() {
+	        // Forward to index.html
+	        return "forward:/index.html";
+	    }
 	 
 	 
 	  @PostMapping("/resend-otp")

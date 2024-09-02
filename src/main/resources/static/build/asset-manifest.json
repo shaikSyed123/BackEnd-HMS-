@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.898d604c.css",
+    "main.js": "/static/js/main.73c09475.js",
+    "static/media/slide2.png": "/static/media/slide2.4c6d2a5a80e81786d334.png",
+    "static/media/slide3.jpg": "/static/media/slide3.78dc4443289a538a33be.jpg",
+    "static/media/slide1.png": "/static/media/slide1.1aac47e4689109fb009e.png",
+    "static/media/hms-logo.png": "/static/media/hms-logo.8ab9d8d4208af8907366.png",
+    "index.html": "/index.html",
+    "main.898d604c.css.map": "/static/css/main.898d604c.css.map",
+    "main.73c09475.js.map": "/static/js/main.73c09475.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.898d604c.css",
+    "static/js/main.73c09475.js"
+  ]
+}

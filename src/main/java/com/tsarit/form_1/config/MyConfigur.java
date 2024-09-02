@@ -63,19 +63,19 @@ public class MyConfigur {
                    .requestMatchers("/**").permitAll()
                    .requestMatchers("/auth/login", "/dashboard","/Dashboard").authenticated()
                    .anyRequest().permitAll()
-           )
-           .formLogin(form ->
-               form
-                   .loginPage("/login")  // The login page to redirect to
-                   .loginProcessingUrl("/dologin")  // The endpoint that processes the login
-                   .defaultSuccessUrl("/dashboard")  // Redirect to dashboard after successful login
-                   .successHandler(loginSuccessListener)
-           )
-           .logout(logout -> 
-               logout
-                   .logoutUrl("/logout")
-                   .logoutSuccessUrl("/login?logout")
            );
+//           .formLogin(form ->
+//               form
+//                   .loginPage("/login")  // The login page to redirect to
+//                   .loginProcessingUrl("/dologin")  // The endpoint that processes the login
+//                   .defaultSuccessUrl("/dashboard")  // Redirect to dashboard after successful login
+//                   .successHandler(loginSuccessListener)
+//           )
+//           .logout(logout -> 
+//               logout
+//                   .logoutUrl("/logout")
+//                   .logoutSuccessUrl("/login?logout")
+//           );
        return http.build();
 	   }
 //	    @Autowired
