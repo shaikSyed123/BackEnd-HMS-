@@ -123,6 +123,7 @@ public class AuthenticationController {
 	            if (ud != null) {
 	                // Save the user data to the database
 	                repository.save(ud);
+	                appointmentService.createUserTable(emailid);
 	                otpService.clearTemporaryData(emailid); // Clear temporary data
 	                return ResponseEntity.ok("OTP verified successfully. User registered.");
 	            } else {
@@ -195,6 +196,7 @@ public class AuthenticationController {
 				) 
 		{    
 		 
+			username=appointmentService.getLoggedInUsername();
 		    Map<String, Object> response = new HashMap<>();
 	       String token=LoginResponse.getToken();
 	        System.out.println(token);

@@ -16,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.tsarit.form_1.model.Appointment;
 import com.tsarit.form_1.model.userData;
-import com.tsarit.form_1.repository.AppointmentRepository;
 import com.tsarit.form_1.repository.userRepository;
 
 @Service
@@ -38,8 +36,6 @@ public class AppointmentService {
 	    }
 
 	@Autowired
-	private AppointmentRepository appointmentRepository;
-	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private DataSource dataSource;
@@ -47,9 +43,7 @@ public class AppointmentService {
 	@Autowired
 	private userRepository userRepository;
 
-	public List<Appointment> getAllAppointments() {
-		return appointmentRepository.findAll();
-	}
+	
 	
 	 public void updateLastLoginDate() {
 	 String username = getLoggedInUserEmail();
@@ -96,14 +90,13 @@ public class AppointmentService {
 	public void createUserTable(String username) {
 		username = getLoggedInUsername();
 		String tableName = username;
-
+		
 		String checkTableQuery = "SHOW TABLES LIKE ?";
 		List<String> tables = jdbcTemplate.queryForList(checkTableQuery, new Object[] { tableName }, String.class);
-
 		 if (tables.size() > 1) {
 		        throw new IllegalStateException("Multiple tables found with the name: " + tableName);
 		    }
-		// If the table does not exist, create it
+		 		// If the table does not exist, create it
 		if (tables.isEmpty()) {
 			String createTableQuery = "CREATE TABLE " + tableName + " ("
 				    + "id BIGINT AUTO_INCREMENT PRIMARY KEY, "
@@ -146,9 +139,18 @@ public class AppointmentService {
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			jdbcTemplate.execute(createTableQuery);
 			System.out.println("Created table for user: " + tableName);
-			
-			 // Create the second table with a foreign key
-        String createSecondTableQuery = "CREATE TABLE " + tableName + "_treatment ("
+		}
+		
+		
+		String treatment=tableName+"_treatment";
+		List<String> tables2 = jdbcTemplate.queryForList(checkTableQuery, new Object[] { treatment }, String.class);
+		if (tables2.size() > 1) {
+	        throw new IllegalStateException("Multiple tables found with the name: " + treatment);
+	    }
+
+		// Create the second table with a foreign key
+		if (tables2.isEmpty()) {
+        String createSecondTableQuery = "CREATE TABLE " + treatment +"("
                 + "id BIGINT AUTO_INCREMENT PRIMARY KEY, "
                 + "patientTreatment TEXT, "
                 + "prescription TEXT, "
@@ -160,7 +162,7 @@ public class AppointmentService {
                 + "tests TEXT, "
                 + "doctorAdvice TEXT, "
                 + "patientId BIGINT, "
-                + "FOREIGN KEY (userId) REFERENCES " + tableName + "(id) ON DELETE CASCADE"
+                + "FOREIGN KEY (patientId) REFERENCES " + tableName + "(id) ON DELETE CASCADE"
                 + ")";
 
         jdbcTemplate.execute(createSecondTableQuery);
@@ -336,12 +338,20 @@ public class AppointmentService {
 		username = getLoggedInUsername();
 		System.out.println("Total pa :"+username);
 		String query = "SELECT COUNT(*) FROM " + username;
-		return jdbcTemplate.queryForObject(query, Long.class);
+		 Long TotalPatientCount =jdbcTemplate.queryForObject(query, Long.class);
+		 if (TotalPatientCount == null) {
+			 TotalPatientCount = 0L;  // Provide a default value
+		    }
+		    return TotalPatientCount;
 	}
 	public long TotalAmount(String username) {
 	 username=getLoggedInUsername();
 		String query="SELECT SUM(amount) FROM "+ username;
-		return jdbcTemplate.queryForObject(query, Long.class);
+		 Long totalAmount =jdbcTemplate.queryForObject(query, Long.class);
+		 if (totalAmount == null) {
+		        totalAmount = 0L;  // Provide a default value
+		    }
+		    return totalAmount;
 	}
 	public long TodayTotalAmount(String username) {
 		 username=getLoggedInUsername();
